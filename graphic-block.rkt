@@ -37,14 +37,7 @@
           (unless updating (check-range start (+ start len)))
 		         
           )
-        
-        #|(define/augment (on-delete start len)
-          (begin-edit-sequence))
-        (define/augment (after-delete start len)
-          (check-range (max 0 (- start (string-length secret-key)))
-                       start)
-          (end-edit-sequence))|#
-        
+
         (define undoing #f)
         (define/private (check-range start stop)
           (split-snip start)
@@ -59,28 +52,34 @@
                        ;(eprintf "Base case : ~v [~v:~v]\n" s start stop)
                    
                        (set! updating #t)
-                       (begin-edit-sequence #t #f)
+                       (send this add-undo
+                             (lambda ()
+                               (set! undoing #f)
+                               #t))
+                       (send this add-undo
+                             (lambda ()
+                               (set! undoing #t)
+                               #t))
+                       (begin-edit-sequence #f #t)
                        ;(set-position start stop)
                        ;(send this undo)
-                       ;(delete start stop)
-                       ;(end-edit-sequence)
-                       ;(begin-edit-sequence #t #f)
-                       ;(set-position start stop)
-                       (insert (get-output-string new-text) start stop #f)
+                       (delete start stop #f)
                        (end-edit-sequence)
-                       (send this add-undo (lambda ()
-                                            ; (begin-edit-sequence #f #f)
-											
-											 ;(delete start (+ start (string-length s)))
-                                             ;(insert (make-string (- stop start) #\space) start (+ start (string-length s)));(delete start stop #f)
-                                             ;(end-edit-sequence)
-											 (set! undoing #t)
-                                             #t))
-
+                       (begin-edit-sequence #t #f)
+                       (set-position start stop)
+                       (insert (get-output-string new-text) start 'same #f)
+                       (end-edit-sequence)
+                       (send this add-undo
+                             (lambda ()
+                               (set! undoing #t)
+                               #t))
+                       (send this add-undo
+                             (lambda ()
+                               (set! undoing #f)
+                               #t))
                        (set! updating #f)
                        )
                      )
-					 (set! undoing #f)
                    ]
                   [(is-a? snip string-snip%)
                    (display (send snip get-text 0 (send snip get-count)) new-text)
