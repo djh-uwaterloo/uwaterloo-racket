@@ -154,7 +154,7 @@
  
     (define (phase1) (void))
     (define (phase2) (void))
-    (preferences:set-default 'framework:ask-about-wxme-conversion #t boolean?)
+    (preferences:set-default 'framework:ask-about-wxme-conversion #f boolean?)
     (preferences:set-default 'framework:do-wxme-conversion #t boolean?)
     (preferences:add-to-editor-checkbox-panel
      (λ (editor-panel)
