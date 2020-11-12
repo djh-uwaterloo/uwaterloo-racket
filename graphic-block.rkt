@@ -38,7 +38,8 @@
              (define-values (mbr checked?)
                (message+check-box/custom
                 (string-constant drscheme)
-                "The string you inserted contains fractions or other non-text elements.  Convert them to text?"
+                "The string you inserted contains fractions or other non-text elements.\
+  Convert them to text?"
                 (string-constant dont-ask-again)
                 "Convert to text"
                 (string-constant leave-alone)
@@ -135,11 +136,11 @@
                     [(is-a? snip string-snip%)
                      (display (send snip get-text 0 (send snip get-count)) new-text)
                      (loop (send snip next) new-text changed?)]
-                    [else ; to any CS135 students reading this: else cond isn't terrible in full Racket because of side effects ;)
+                    [else ; to any CS135 students reading this: else cond isn't always terrible 
                      (cond [(number-snip:is-number-snip? snip)
                             (write (number-snip:get-number snip) new-text)]
                            [else (fprintf new-text "#|Failed to insert ~v|#" snip)])
-                     (loop (send snip next)
+                     (loop (send snip next) ;; this also happens in the else ;)
                            new-text
                            #t)]))))
  
