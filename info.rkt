@@ -1,8 +1,11 @@
 #lang info
 
 (define collection "uwaterloo-racket")
-(define deps '("base"))
-(define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
+(define deps '("drracket-plugin-lib"
+               "gui-lib"
+               "string-constants-lib"
+               "base"))
+(define build-deps '("scribble-lib" "racket-doc"))
 (define scribblings '(("scribblings/uwaterloo-racket.scrbl" ())))
 (define pkg-desc "University of Waterloo Racket plugins and libraries")
 (define version "0.0")
