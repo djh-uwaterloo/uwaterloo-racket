@@ -139,6 +139,8 @@
                     [else ; to any CS135 students reading this: else cond isn't always terrible 
                      (cond [(number-snip:is-number-snip? snip)
                             (write (number-snip:get-number snip) new-text)]
+                           [(is-a? snip comment-box:snip%)
+                            (fprintf new-text "~a\n" (send snip get-text 0 (send snip get-count)))]
                            [else (fprintf new-text "#|Failed to insert ~v|#" snip)])
                      (loop (send snip next) ;; this also happens in the else ;)
                            new-text
