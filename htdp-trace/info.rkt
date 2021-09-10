@@ -7,5 +7,5 @@
 
 (define scribblings '(("scribblings/htdp-trace.scrbl")))
 (define pkg-desc "Wrapper for racket/trace that allows it to be used in Beginning Student (HtDP)")
-(define version "0.0")
+(define version "1.1")
 (define pkg-authors '(djholtby))

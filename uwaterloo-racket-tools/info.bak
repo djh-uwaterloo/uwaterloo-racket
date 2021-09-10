@@ -1,8 +1,8 @@
 #lang info
 (define collection "uwaterloo-racket-tools")
-(define deps '("base"))
-(define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
-(define scribblings '(("scribblings/uwaterloo-racket-tools.scrbl" ())))
-(define pkg-desc "Description Here")
-(define version "0.0")
-(define pkg-authors '(Dan))
+(define deps '("base" "htdp-trace" "graphic-block"))
+
+(define pkg-desc
+  "Metapackage for tools and libraries used by the University of Waterloo's first year courses")
+(define version "1.0")
+(define pkg-authors '(djholtby))
