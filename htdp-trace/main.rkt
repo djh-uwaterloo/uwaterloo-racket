@@ -13,14 +13,13 @@
      (with-syntax
          ; break hygiene to snag define from the current lexical context
          ([student-define (datum->syntax stx 'define)]
-         ; generate a fake name for the real function.  temporaries are always distinct
-          [(f1) (generate-temporaries #'(f))])
+          ; generate a fake name for the real function.  temporaries are always distinct
+          [f1 (datum->syntax stx (string->uninterned-symbol (symbol->string (syntax->datum #'f))))])
        (syntax/loc stx
          (begin
-          (define f1 (letrec ([f (λ (arg ...) body)])
-                       (trace f)
-                       f))
-          (student-define (f arg ...) (f1 arg ...)))))]
+           (define (f1 arg ...) body)
+           (trace f1)
+           (student-define (f arg ...) (f1 arg ...)))))]
     [(_ name value) ; if they try to use it to define a constant
      (raise-syntax-error 'define/trace "define/trace can only be used to define functions" stx)]
     [(_ arg ...) ; other cases it just maps to a define so that that syntax can raise its own errors
